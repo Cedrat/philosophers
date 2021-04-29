@@ -1,0 +1,92 @@
+
+fonctions externes :
+
+int usleep(useconds_t usec) : La fonction usleep() suspend l'exécution
+	du programme appelant durant (au moins) usec microsecondes.
+
+Valeurs de retours : 0 en cas de succès, -1 en cas d'erreur.
+
+exemple : usleep(1000) suspend l’exécution du programme pendant une 0.01 seconde.
+
+
+int gettimeofday(struct timeval *tv, struct timezone *tz) : La fonction gettimeofday() sert à lire
+	l'heure ainsi que le fuseau horaire (timezone).
+	L'argument tv est une structure timeval (décrite dans <sys/time).
+
+	struct timeval {
+	    time_t      tv_sec;  /* secondes */
+	    suseconds_t tv_usec; /* microsecondes */
+	};
+
+Valeurs de retour : 0 en cas de succès, -1 en cas d'erreur.
+
+
+THREAD
+
+int pthread_create(pthread_t *thread, const pthread_attr_t *attr,
+                          void *(*start_routine) (void *), void *arg);
+
+	 thread = variable de type pthread_t;
+	 attr = change le comportement des threads; mettre a NULL;
+	 start_routine = fonction attaché au thread;
+	 arg = argument a passer a start_routine;
+
+Valeurs de retour : 0 en cas de succès, sinon un numéro d'erreur.
+
+
+int pthread_join (pthread_t th, void ** thread_return); //utile pour attendre qu'un autre thread se termine.
+
+	th = thread a attendre.
+	thread_return = valeur de retour de th.
+
+Valeurs de retour : 0 en cas de succès, sinon un code d'erreur non nul.
+
+ int pthread_detach(pthread_t th);
+
+ 	th ; thread a détacher
+
+	Un thread crée à l’état détaché ne peut jamais être joint (attendu)
+	Un thread créé à l’état joignable peut être détaché
+	il n’est alors plus joignable
+	il n’y a pas de retour possible à l’état joignable
+
+
+MUTEX
+
+	int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *mutexattr);
+
+		pthread_mutex_t = Prend une variable pthread_mutex_t pour le créer;
+		mutexattr = Parametre de mutex, peut etre a NULL;
+
+  	Valeurs de retours : 0 tout le temps.
+
+
+	int pthread_mutex_destroy(pthread_mutex_t *mutex);
+
+		pthread_mutex_destroy() détruit un mutex, libérant les ressources qu'il détient.
+		Le mutex doit être déverrouillé.
+
+		mutex = mutex à détruire.
+
+	Valeurs de retours : 0 en cas de succès, code d'erreur non nul sinon.
+
+
+	int pthread_mutex_lock(pthread_mutex_t *mutex);
+
+		Verrouille le mutex dans le thread appelant, si le mutex est déjà verrouillé par un autre thread,
+		ce thread est bloqué, jusqu'a que le mutex soit déverrouillé.
+
+		mutex = mutex a verrouiller.
+
+	Valeurs de retours : 0 en cas de succès, code d'erreur non nul sinon.
+
+
+	int pthread_mutex_unlock(pthread_mutex_t *mutex);
+
+		Deverouille le mutex dans le thread courant.
+
+		mutex = mutex a deverouiller
+
+	Valeurs de retours : 0 en cas de succès, code d'erreur non nul sinon.
+http://helios.mi.parisdescartes.fr/~soto/dokuwiki/lib/exe/fetch.php?media=teaching:gestionthreads.pdf (watermark de merde)
+https://franckh.developpez.com/tutoriels/posix/pthreads/
