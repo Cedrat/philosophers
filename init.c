@@ -19,6 +19,7 @@ int create_philo(t_args_philo args_philo)
 	philo = malloc(sizeof(t_philo) * args_philo.nb_philo);
 
 	init_philo(philo, args_philo);
+	return (1);
 }
 
 int init_philo(t_philo *philo, t_args_philo args_philo)
@@ -27,9 +28,10 @@ int init_philo(t_philo *philo, t_args_philo args_philo)
 
 	i = 0;
 	philo[0].philo_nb = i + 1;
+	philo[i].state = THINKING;
 	pthread_mutex_init(&philo[0].fork_left, NULL);
 	pthread_mutex_init(&philo[0].fork_right, NULL);
-	pthread_create(&philo[0].philo_thread, NULL, five_sec, (void *) 100); //a changer
+	pthread_create(&philo[0].philo_thread, NULL, survive, (void *)(&philo[0]));
 	printf("philo %d was created\n", philo[0].philo_nb);
 	i++;
 
@@ -37,14 +39,17 @@ int init_philo(t_philo *philo, t_args_philo args_philo)
 	{
 		philo[i].philo_nb = i + 1;
 		philo[i].fork_left = philo[i - 1].fork_right;
+		philo[i].state = THINKING;
 		pthread_mutex_init(&philo[i].fork_right, NULL);
-		pthread_create(&philo[i].philo_thread, NULL, five_sec, (void *) 100);
+		pthread_create(&philo[i].philo_thread, NULL, survive, (void *)(&philo[i]));
 		printf("philo %d was created\n", philo[i].philo_nb);
 		i++;
 	}
 	philo[i].philo_nb = i + 1;
+	philo[i].state = THINKING;
 	philo[i].fork_right = philo[0].fork_left;
 	pthread_mutex_init(&philo[i].fork_left, NULL);
-	pthread_create(&philo[i].philo_thread, NULL, five_sec, (void *) 100);
+	pthread_create(&philo[i].philo_thread, NULL, survive, (void *)(&philo[i]));
 	printf("philo %d was created\n", philo[i].philo_nb);
+	return (1);
 }
