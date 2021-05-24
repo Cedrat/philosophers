@@ -2,13 +2,6 @@
 
 	t_args_philo args_philo;
 
-void *five_sec(void *times)
-{
-	long int time = (long int)(times);
-	timer_sec(time);
-	return ((void *)time);
-}
-
 void *survive(void *arg)
 {
 	int time = 0;
@@ -16,7 +9,7 @@ void *survive(void *arg)
 	struct timeval tv;
 	t_philo args;
 	
-	int sleep_process = 0;
+	int sleep_process = 250;
 	args = *(t_philo *) arg;
 	while(args_philo.no_die)
 	{
@@ -24,65 +17,95 @@ void *survive(void *arg)
 		{
 			usleep(sleep_process);
 		}
-		gettimeofday(&tv, NULL);
-		// if ((tv.tv_usec / 1000) < time)
-		// 	time += tv.tv_usec / 1000;
-		// else
-			time = (tv.tv_usec / 1000);
+		//printf("%d\n", args_philo.actual_time - args.last_time_philo_eaten);
 
-		//printf("time = %d\n", time);
 		if(args.state == EATING)
 		{
-			if ((time - args.last_time_philo_eaten) > (args_philo.time_to_eat))
+			if ((args_philo.actual_time - args.last_time_philo_eaten) > (args_philo.time_to_eat))
 			{
+				pthread_mutex_unlock(args.fork_left);
+				pthread_mutex_unlock(args.fork_right);
 				args.state = SLEEP;
-				args.last_time_philo_sleep = time;
-				printf("%d %d is sleeping\n",time - args_philo.init_time, args.philo_nb);
-				sleep_process = args_philo.time_to_eat / 10;
+				args.last_time_philo_sleep = args_philo.actual_time;
+				put_action(args_philo.actual_time, args.philo_nb, "is sleeping\n");
+				//printf("%d %d is sleeping\n",time, args.philo_nb);
 			}
 		}
 		else if(args.state == SLEEP)
 		{
-			if ((time - args.last_time_philo_sleep) > (args_philo.time_to_sleep))
+			if ((args_philo.actual_time - args.last_time_philo_sleep) > (args_philo.time_to_sleep))
 			{
 				args.state = THINKING;
-				args.last_time_philo_think = time;
-				printf("%d %d is thinking\n",time - args_philo.init_time, args.philo_nb);
+				args.last_time_philo_think = args_philo.actual_time;
+				put_action(args_philo.actual_time, args.philo_nb, "is thinking\n");
 			}
 		}
 		else if(args.state == THINKING)
 		{
-			args.state = EATING;
-			args.last_time_philo_eaten = time;
-			printf("%d %d is eating\n",time - args_philo.init_time, args.philo_nb);
+			if (pthread_mutex_lock(args.fork_left)== 0)
+			{
+				if ((args_philo.actual_time - args.last_time_philo_eaten) > (args_philo.time_to_die))
+				{
+					args_philo.no_die = 0;
+					put_action(args_philo.actual_time, args.philo_nb, "is died\n");
+				}
+				if (pthread_mutex_lock(args.fork_right) == 0)
+				{
+					put_action(args_philo.actual_time, args.philo_nb, "has taken a fork\n");
+					args.state = EATING;
+					args.last_time_philo_eaten = args_philo.actual_time;
+					put_action(args_philo.actual_time, args.philo_nb, "is eating\n");
+				}
+				else
+				{
+					pthread_mutex_unlock(args.fork_left);
+				}
+			}
 		}
-		if ((time - args.last_time_philo_eaten) > (args_philo.time_to_die))
-		{
-			args_philo.no_die = 0;
-			printf("%d %d is died\n",time - args_philo.init_time, args.philo_nb);
-		}
+		// put_action(args.last_time_philo_eaten, args.philo_nb, "is amusing\n");
+		// put_action(args_philo.actual_time, args.philo_nb, " REAL TIME\n");
+		
 	}
 	return ((void *)1);
 }
 
+void check_alive()
+{
+	int i;
+
+	i = 0;
+	while (i < args_philo.nb_philo)
+	{
+		if ((args_philo.actual_time - args_philo.philo[i]->last_time_philo_eaten) > args_philo.time_to_die)
+		{
+			put_action(args_philo.actual_time, args_philo.philo[i]->philo_nb, "is died\n");
+			args_philo.no_die = 0;
+		}
+		i++;
+	}
+}
+
 int main(int argc, char **argv)
 {
-	struct timeval tv;
-	gettimeofday(&tv, 0);
-	args_philo.init_time = tv.tv_usec/1000;
+	args_philo.init_time = chrono_init();
 	if (argc < 5)
 		return (0);
+	t_philo *philo;
 	args_philo.nb_philo = ft_atoi(argv[1]);
 	args_philo.time_to_die = ft_atoi(argv[2]);
 	args_philo.time_to_eat = ft_atoi(argv[3]);
 	args_philo.time_to_sleep = ft_atoi(argv[4]);
 	args_philo.no_die = 1;
-	create_philo(args_philo);
+	philo = create_philo(args_philo);
 	// printf("%d\n", args_philo.nb_philo);
 	// printf("%d\n", args_philo.time_to_die);
 	// printf("%d\n", args_philo.time_to_eat);
 	// printf("%d\n", args_philo.time_to_sleep);
 	while(args_philo.no_die)
-	{};
+	{
+		args_philo.actual_time = stamp_time(args_philo.init_time);
+		//check_alive();
+		usleep(250);
+	};
 	return (1);
 }

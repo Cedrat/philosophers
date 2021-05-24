@@ -12,6 +12,23 @@
 
 #include "philosophers.h"
 
+int ft_strlen(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
+void  ft_putstr(char *str)
+{
+	write(1, str, ft_strlen(str));
+}
+
 int ft_atoi(char *nb)
 {
 	int i;
@@ -34,4 +51,80 @@ int ft_atoi(char *nb)
 		i++;
 	}
 	return (int_nb * minus);
+}
+
+void put_action(int time, int nb, char *action)
+{
+	char all_action[50];
+	int i = 0;
+
+	int power = 0;
+	int copy_time;
+
+	copy_time = time;
+
+	while (copy_time > 0)
+	{
+		if (power == 0)
+			power = 1;
+		else
+			power *= 10;
+		copy_time /=10;
+	}
+	if (power == 0)
+	{
+		all_action[i] = '0';
+		power = 0;
+		i++;
+	}
+	while (power >= 1)
+	{
+		// printf("%d\n", power);
+		all_action[i] = (time / (power)) + '0';
+		time = time % power;
+		i++;
+		power /= 10;
+	}
+	all_action[i] = ' ';
+	i++;
+
+	int copy_nb;
+
+	copy_nb = nb;
+	power = 0;
+	while (copy_nb != 0)
+	{
+				if (power == 0)
+			power = 1;
+		else
+			power *= 10;
+		copy_nb /=10;
+	}
+	if (power == 0)
+	{
+		all_action[i] = '0';
+		power = 0;
+		i++;
+	}
+
+	while (power >= 1)
+	{
+		all_action[i] = (nb / power) + '0';
+		nb = nb % power;
+		i++;
+		power /= 10;
+	}
+	int p;
+	p = 0;
+
+		all_action[i] = ' ';
+	i++;
+	while(action[p])
+	{
+		all_action[i] = action[p];
+		p++;
+		i++;
+	}
+	all_action[i] = '\0';
+	ft_putstr(all_action);
 }

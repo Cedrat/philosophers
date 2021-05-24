@@ -24,15 +24,7 @@
 #define SLEEP 1
 #define THINKING 2
 
-typedef struct s_args_philo
-{
-	int nb_philo;
-	int time_to_die;
-	int time_to_eat;
-	int time_to_sleep;
-	int no_die;
-	int init_time;
-}				t_args_philo;
+
 
 typedef struct s_philo
 {
@@ -41,17 +33,32 @@ typedef struct s_philo
 	int last_time_philo_eaten;
 	int last_time_philo_sleep;
 	int last_time_philo_think;
-	pthread_mutex_t fork_left;
-	pthread_mutex_t fork_right;
+	pthread_mutex_t *fork_left;
+	pthread_mutex_t *fork_right;
 	pthread_t philo_thread;
 }				t_philo;
 
+typedef struct s_args_philo
+{
+	int nb_philo;
+	int time_to_die;
+	int time_to_eat;
+	int time_to_sleep;
+	int no_die;
+	int init_time;
+	int actual_time;
+	t_philo **philo;
+}				t_args_philo;
+
+void put_action(int time, int nb, char *action);
+int chrono_init(void);
+int stamp_time(int start_time);
 long int	timer_usec(long int usecondes);
 long int	timer_sec(long int secondes);
 void *five_sec(void *times);
 void *survive(void *args);
 int 		ft_atoi(char *nb);
-int create_philo(t_args_philo args_philo);
+t_philo * create_philo(t_args_philo args_philo);
 int init_philo(t_philo *philo, t_args_philo args_philo);
 
 
