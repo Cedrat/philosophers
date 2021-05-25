@@ -55,14 +55,15 @@ int ft_atoi(char *nb)
 
 void put_action(int time, int nb, char *action)
 {
-	char all_action[50];
+	
+	char all_action[100];
 	int i = 0;
 
 	int power = 0;
 	int copy_time;
 
 	copy_time = time;
-
+		
 	while (copy_time > 0)
 	{
 		if (power == 0)
@@ -126,5 +127,7 @@ void put_action(int time, int nb, char *action)
 		i++;
 	}
 	all_action[i] = '\0';
+	pthread_mutex_lock(&args_philo.auth_write);
 	ft_putstr(all_action);
+	pthread_mutex_unlock(&args_philo.auth_write);
 }

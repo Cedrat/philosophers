@@ -47,8 +47,10 @@ typedef struct s_args_philo
 	int no_die;
 	int init_time;
 	int actual_time;
-	t_philo **philo;
+	pthread_mutex_t auth_write;
 }				t_args_philo;
+
+	t_args_philo args_philo;
 
 void put_action(int time, int nb, char *action);
 int chrono_init(void);
@@ -59,7 +61,8 @@ void *five_sec(void *times);
 void *survive(void *args);
 int 		ft_atoi(char *nb);
 t_philo * create_philo(t_args_philo args_philo);
-int init_philo(t_philo *philo, t_args_philo args_philo);
+t_philo * init_philo(t_philo *philo, t_args_philo args_philo);
+void check_alive(t_philo *philos);
 
 
 
