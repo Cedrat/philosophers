@@ -12,6 +12,22 @@
 
 #include "philosophers.h"
 
+
+void my_usleep(int time)
+{
+	int i;
+	int decomposition_of_sleep;
+
+	decomposition_of_sleep = 15;
+	i = 0;
+
+	while (i < decomposition_of_sleep)
+	{
+		usleep(time/decomposition_of_sleep);
+		i++;
+	}
+}
+
 int ft_strlen(char *str)
 {
 	int i;
@@ -53,10 +69,10 @@ int ft_atoi(char *nb)
 	return (int_nb * minus);
 }
 
-void put_action(int time, int nb, char *action)
+void put_action(int time, int nb, char *action, pthread_mutex_t *auth_write)
 {
 	
-	char all_action[100];
+	char all_action[50];
 	int i = 0;
 
 	int power = 0;
@@ -127,7 +143,7 @@ void put_action(int time, int nb, char *action)
 		i++;
 	}
 	all_action[i] = '\0';
-	pthread_mutex_lock(&args_philo.auth_write);
+	pthread_mutex_lock(auth_write);
 	ft_putstr(all_action);
-	pthread_mutex_unlock(&args_philo.auth_write);
+	pthread_mutex_unlock(auth_write);
 }
