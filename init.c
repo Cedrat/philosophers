@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 15:09:18 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/27 16:49:36 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/28 15:32:54 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,13 @@ t_philo	*init_philo(t_philo *philo, t_args_philo *args_philo)
 		pthread_mutex_init(philo[i].fork_right, NULL);
 		i++;
 	}
-	philo[i].auth_write = philo[0].auth_write;
-	global_philo_init(&philo[i], args_philo, i);
-	philo[i].fork_right = philo[0].fork_left;
-	philo[i].fork_left = philo[i - 1].fork_right;
+	if (args_philo->nb_philo != 1)
+	{
+		philo[i].auth_write = philo[0].auth_write;
+		global_philo_init(&philo[i], args_philo, i);
+		philo[i].fork_right = philo[0].fork_left;
+		philo[i].fork_left = philo[i - 1].fork_right;
+	}
 	launch_all_thread(philo);
 	return (philo);
 }

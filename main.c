@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 16:31:15 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/27 16:31:16 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/28 15:23:31 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int argc, char **argv)
 	args_philo->actual_time = stamp_time(args_philo->init_time);
 	philo = create_philo(args_philo);
 	check_running(philo, args_philo);
-	// TODO all cleans.
 	return (1);
 }
 
