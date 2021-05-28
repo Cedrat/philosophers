@@ -48,7 +48,7 @@ typedef struct s_philo
 	int				nb_meals_eaten;
 	pthread_mutex_t	*fork_left;
 	pthread_mutex_t	*fork_right;
-	pthread_mutex_t	*auth_write;
+	pthread_mutex_t	auth_write;
 	pthread_t		philo_thread;
 	t_args_philo	*global_args;
 }				t_philo;
@@ -78,4 +78,5 @@ void				init_first_philo(t_philo *philo, t_args_philo *args_philo);
 void				global_philo_init(t_philo *philo, t_args_philo *args_philo,
 						int philo_nb);
 void				launch_all_thread(t_philo *philo);
+void				cleans_philo(t_philo *philo, t_args_philo *t_args_philo);
 #endif

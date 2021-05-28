@@ -12,17 +12,43 @@
 
 #include "philosophers.h"
 
+void cleans_philo(t_philo *philo, t_args_philo *t_args_philo)
+{
+	int i;
+
+	i = 0;
+	
+	while (i < t_args_philo->nb_philo)
+	{
+		pthread_mutex_unlock(philo[i].fork_right);
+		pthread_mutex_destroy(philo[i].fork_right);
+		free(philo[i].fork_right);
+		i++;
+	};
+	free(philo[0].global_args);
+	free(philo);
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo			*philo;
 	t_args_philo	*args_philo;
 
 	args_philo = malloc(sizeof(t_args_philo));
+	if (args_philo == NULL)
+		return (0);
 	if (init_global_philo_args(argc, argv, args_philo) == 0)
 		return (0);
 	args_philo->actual_time = stamp_time(args_philo->init_time);
 	philo = create_philo(args_philo);
+	if (philo == NULL)
+	{
+		free(args_philo);
+		return (0);
+	}
 	check_running(philo, args_philo);
+	usleep(200000000);
+	cleans_philo(philo, args_philo);
 	return (1);
 }
 

@@ -19,8 +19,8 @@ void	check_running(t_philo *philo, t_args_philo *global_philo)
 		while (global_philo->no_die)
 		{
 			global_philo->actual_time = stamp_time(global_philo->init_time);
-			check_all_alive(philo, global_philo);
 			check_eat(philo, global_philo);
+			check_all_alive(philo, global_philo);
 			usleep(200);
 		}
 	}
@@ -44,9 +44,11 @@ void	check_all_alive(t_philo *philo, t_args_philo *global_philo)
 	{
 		if (check_philo_died(global_philo, philo[i].last_time_philo_eaten))
 		{
+			global_philo->no_die = 0;
+			usleep(2000);
 			put_action(global_philo->actual_time,
-				philo[i].philo_nb, "died\n", philo[i].auth_write);
-			pthread_mutex_lock(philo[i].auth_write);
+				philo[i].philo_nb, "died\n", &philo[i].auth_write);
+			pthread_mutex_lock(&philo[i].auth_write);
 			global_philo->no_die = 0;
 		}
 		i++;
@@ -77,8 +79,8 @@ void	check_eat(t_philo *philo, t_args_philo *global_philo)
 	if (nb_philo_eaten_enough == i)
 	{
 		global_philo->no_die = 0;
-		pthread_mutex_lock(philo->auth_write);
+		usleep(2000);
+		pthread_mutex_lock(&philo->auth_write);
 		ft_putstr("All the philosophers had eat enough\n");
-		pthread_mutex_unlock(philo->auth_write);
 	}
 }

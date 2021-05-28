@@ -17,18 +17,35 @@ t_philo	*create_philo(t_args_philo *args_philo)
 	t_philo	*philo;
 
 	philo = malloc(sizeof(t_philo) * (args_philo->nb_philo + 1));
+	if (philo == NULL)
+		return (philo);
 	init_philo(philo, args_philo);
 	return (philo);
+}
+
+void *check_malloc_fork(t_philo * philo, int nb_philo)
+{
+	int i;
+
+	i = 0;
+	while (i < nb_philo)
+	{
+		if (philo[i].fork_right == NULL)
+			return(NULL);
+		i++;
+	};
+	if (nb_philo == 1 && philo[i].fork_right == NULL)
+		return (NULL);
+	return ((void *)1);
 }
 
 t_philo	*init_philo(t_philo *philo, t_args_philo *args_philo)
 {
 	int	i;
 
-	i = 0;
-	global_philo_init(&philo[i], args_philo, i);
+	i = 1;
+	global_philo_init(&philo[0], args_philo, 0);
 	init_first_philo(&philo[0], args_philo);
-	i++;
 	while ((i + 1) < args_philo->nb_philo)
 	{
 		global_philo_init(&philo[i], args_philo, i);
@@ -45,6 +62,8 @@ t_philo	*init_philo(t_philo *philo, t_args_philo *args_philo)
 		philo[i].fork_right = philo[0].fork_left;
 		philo[i].fork_left = philo[i - 1].fork_right;
 	}
+	if (check_malloc_fork(philo, args_philo->nb_philo) == 0)
+		return (NULL);
 	launch_all_thread(philo);
 	return (philo);
 }
@@ -58,18 +77,18 @@ void	launch_all_thread(t_philo *philo)
 	{
 		pthread_create(&philo[i].philo_thread,
 			NULL, survive, (void *)(&philo[i]));
+		pthread_detach(philo[i].philo_thread);
 		i++;
 	}
 }
 
-void	init_first_philo(t_philo *philo, t_args_philo *args_philo)
+void 	init_first_philo(t_philo *philo, t_args_philo *args_philo)
 {
-	philo->auth_write = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(philo[0].auth_write, NULL);
-	philo->fork_left = malloc(sizeof(pthread_mutex_t));
-	philo->fork_right = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(philo->fork_left, NULL);
-	pthread_mutex_init(philo->fork_right, NULL);
+	pthread_mutex_init(&philo[0].auth_write, NULL);
+	philo[0].fork_left = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(philo[0].fork_left, NULL);
+	philo[0].fork_right = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(philo[0].fork_right, NULL);
 }
 
 void	global_philo_init(t_philo *philo, t_args_philo *args_philo,
