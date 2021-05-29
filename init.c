@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 15:09:18 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/28 15:32:54 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/29 15:16:00 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void *check_malloc_fork(t_philo * philo, int nb_philo)
 			return(NULL);
 		i++;
 	};
-	if (nb_philo == 1 && philo[i].fork_right == NULL)
+	if (nb_philo == 1 && philo[0].fork_right == NULL)
 		return (NULL);
 	return ((void *)1);
 }
@@ -87,6 +87,10 @@ void 	init_first_philo(t_philo *philo, t_args_philo *args_philo)
 	pthread_mutex_init(&philo[0].auth_write, NULL);
 	philo[0].fork_left = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(philo[0].fork_left, NULL);
+	if (args_philo->nb_philo == 1)
+	{
+		pthread_mutex_lock(philo[0].fork_left);
+	}
 	philo[0].fork_right = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(philo[0].fork_right, NULL);
 }

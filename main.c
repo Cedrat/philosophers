@@ -6,18 +6,33 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 16:31:15 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/28 15:23:31 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/29 15:36:46 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+void unlock_mutex(t_philo *philo, t_args_philo *args_philo)
+{
+	int i;
+
+	i = 0;
+	while (i < args_philo->nb_philo)
+	{
+		pthread_mutex_unlock(philo[i].fork_right);
+		i++;
+	};
+	if (args_philo->nb_philo == 1)
+	{
+		pthread_mutex_unlock(philo[0].fork_left);
+	}
+}
 void cleans_philo(t_philo *philo, t_args_philo *t_args_philo)
 {
 	int i;
 
 	i = 0;
-	
+
 	while (i < t_args_philo->nb_philo)
 	{
 		pthread_mutex_unlock(philo[i].fork_right);
@@ -25,6 +40,12 @@ void cleans_philo(t_philo *philo, t_args_philo *t_args_philo)
 		free(philo[i].fork_right);
 		i++;
 	};
+	if (t_args_philo->nb_philo == 1)
+	{
+		pthread_mutex_unlock(philo[0].fork_left);
+		pthread_mutex_destroy(philo[0].fork_left);
+		free(philo[0].fork_left);
+	}
 	free(philo[0].global_args);
 	free(philo);
 }
@@ -47,7 +68,8 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	check_running(philo, args_philo);
-	usleep(200000000);
+	unlock_mutex(philo, args_philo);
+	usleep(20000);
 	cleans_philo(philo, args_philo);
 	return (1);
 }

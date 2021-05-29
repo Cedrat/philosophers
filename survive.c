@@ -28,23 +28,29 @@ void	philo_eating(t_philo *philo)
 	{
 		pthread_mutex_lock(philo->fork_left);
 		pthread_mutex_lock(philo->fork_right);
-		put_action(philo->global_args->actual_time, philo->philo_nb,
-			"has taken a fork\n", &philo->auth_write);
-		philo->state = EATING;
-		philo->last_time_philo_eaten = philo->global_args->actual_time;
-		put_action(philo->global_args->actual_time, philo->philo_nb,
-			"is eating\n", &philo->auth_write);
+		if (philo->global_args->no_die)
+		{
+			put_action(philo->global_args->actual_time, philo->philo_nb,
+				"has taken a fork\n", &philo->auth_write);
+			philo->state = EATING;
+			philo->last_time_philo_eaten = philo->global_args->actual_time;
+			put_action(philo->global_args->actual_time, philo->philo_nb,
+				"is eating\n", &philo->auth_write);
+		}
 	}
 	else
 	{
 		pthread_mutex_lock(philo->fork_right);
 		pthread_mutex_lock(philo->fork_left);
-		put_action(philo->global_args->actual_time, philo->philo_nb,
-			"has taken a fork\n", &philo->auth_write);
-		philo->state = EATING;
-		philo->last_time_philo_eaten = philo->global_args->actual_time;
-		put_action(philo->global_args->actual_time, philo->philo_nb,
-			"is eating\n", &philo->auth_write);
+		if (philo->global_args->no_die)
+		{
+			put_action(philo->global_args->actual_time, philo->philo_nb,
+				"has taken a fork\n", &philo->auth_write);
+			philo->state = EATING;
+			philo->last_time_philo_eaten = philo->global_args->actual_time;
+			put_action(philo->global_args->actual_time, philo->philo_nb,
+				"is eating\n", &philo->auth_write);
+		}
 	}
 }
 
