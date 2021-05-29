@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 16:31:15 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/29 15:36:46 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/29 16:26:52 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void cleans_philo(t_philo *philo, t_args_philo *t_args_philo)
 		free(philo[0].fork_left);
 	}
 	free(philo[0].global_args);
+	free(philo[0].auth_write);
 	free(philo);
 }
 

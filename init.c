@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 15:09:18 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/29 15:16:00 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/29 16:19:47 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	launch_all_thread(t_philo *philo)
 
 void 	init_first_philo(t_philo *philo, t_args_philo *args_philo)
 {
-	pthread_mutex_init(&philo[0].auth_write, NULL);
+	philo[0].auth_write = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(philo[0].auth_write, NULL);
 	philo[0].fork_left = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(philo[0].fork_left, NULL);
 	if (args_philo->nb_philo == 1)

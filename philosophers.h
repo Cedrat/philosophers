@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 17:40:53 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/28 15:23:11 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/29 16:18:52 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_philo
 	int				nb_meals_eaten;
 	pthread_mutex_t	*fork_left;
 	pthread_mutex_t	*fork_right;
-	pthread_mutex_t	auth_write;
+	pthread_mutex_t	*auth_write;
 	pthread_t		philo_thread;
 	t_args_philo	*global_args;
 }				t_philo;

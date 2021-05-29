@@ -17,7 +17,7 @@ void	*survive(void *arg)
 			philo_sleeping(philo);
 		else if (philo->state == THINKING)
 			philo_eating(philo);
-		usleep(sleep_process);
+		usleep(1000);
 	}
 	return ((void *)1);
 }
@@ -28,32 +28,23 @@ void	philo_eating(t_philo *philo)
 	{
 		pthread_mutex_lock(philo->fork_left);
 		pthread_mutex_lock(philo->fork_right);
-		if (philo->global_args->no_die)
-		{
-			put_action(philo->global_args->actual_time, philo->philo_nb,
-				"has taken a fork\n", &philo->auth_write);
-			philo->state = EATING;
-			philo->last_time_philo_eaten = philo->global_args->actual_time;
-			put_action(philo->global_args->actual_time, philo->philo_nb,
-				"is eating\n", &philo->auth_write);
-		}
 	}
 	else
 	{
 		pthread_mutex_lock(philo->fork_right);
 		pthread_mutex_lock(philo->fork_left);
-		if (philo->global_args->no_die)
-		{
-			put_action(philo->global_args->actual_time, philo->philo_nb,
-				"has taken a fork\n", &philo->auth_write);
-			philo->state = EATING;
-			philo->last_time_philo_eaten = philo->global_args->actual_time;
-			put_action(philo->global_args->actual_time, philo->philo_nb,
-				"is eating\n", &philo->auth_write);
-		}
+	}
+	if (philo->global_args->no_die)
+	{
+		put_action(philo->global_args->actual_time, philo->philo_nb,
+			"has taken a fork\n", philo->auth_write);
+		philo->state = EATING;
+		philo->last_time_philo_eaten = philo->global_args->actual_time;
+		put_action(philo->global_args->actual_time, philo->philo_nb,
+			"is eating\n", philo->auth_write);
+		usleep(philo->global_args->time_to_eat/2);
 	}
 }
-
 void	philo_thinking(t_philo *philo)
 {
 	if ((philo->global_args->actual_time - philo->last_time_philo_eaten)
@@ -65,7 +56,8 @@ void	philo_thinking(t_philo *philo)
 		philo->state = SLEEP;
 		philo->last_time_philo_sleep = philo->global_args->actual_time;
 		put_action(philo->global_args->actual_time, philo->philo_nb,
-			"is sleeping\n", &philo->auth_write);
+			"is sleeping\n", philo->auth_write);
+		usleep(philo->global_args->time_to_sleep/2);
 	}
 }
 
@@ -77,6 +69,6 @@ void	philo_sleeping(t_philo *philo)
 		philo->state = THINKING;
 		philo->last_time_philo_think = philo->global_args->actual_time;
 		put_action(philo->global_args->actual_time, philo->philo_nb,
-			"is thinking\n", &philo->auth_write);
+			"is thinking\n", philo->auth_write);
 	}
 }
