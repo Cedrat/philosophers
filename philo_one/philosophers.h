@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 17:40:53 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/29 16:18:52 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/30 18:22:26 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,13 @@ void				global_philo_init(t_philo *philo, t_args_philo *args_philo,
 						int philo_nb);
 void				launch_all_thread(t_philo *philo);
 void				cleans_philo(t_philo *philo, t_args_philo *t_args_philo);
+int					not_a_positive_number(char *str);
+void				ft_putstr_fd(char *str, int fd);
+int					check_args(int nb_args, char **arg);
+bool				is_malloc_error(void *to_check);
+int					check_args(int nb_args, char **arg);
+bool				check_nb_args(int nb_args);
+void				unlock_mutex(t_philo *philo, t_args_philo *args_philo);
+void				*check_malloc_fork(t_philo *philo, int nb_philo);
+
 #endif

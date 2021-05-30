@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 14:45:35 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/28 15:05:32 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/30 17:00:33 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ int	ft_strlen(char *str)
 void	ft_putstr(char *str)
 {
 	write(1, str, ft_strlen(str));
+}
+
+void	ft_putstr_fd(char *str, int fd)
+{
+	write(fd, str, ft_strlen(str));
 }
 
 int	ft_atoi(char *nb)

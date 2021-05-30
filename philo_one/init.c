@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 15:09:18 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/29 16:19:47 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/30 18:20:00 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,6 @@ t_philo	*create_philo(t_args_philo *args_philo)
 		return (philo);
 	init_philo(philo, args_philo);
 	return (philo);
-}
-
-void *check_malloc_fork(t_philo * philo, int nb_philo)
-{
-	int i;
-
-	i = 0;
-	while (i < nb_philo)
-	{
-		if (philo[i].fork_right == NULL)
-			return(NULL);
-		i++;
-	};
-	if (nb_philo == 1 && philo[0].fork_right == NULL)
-		return (NULL);
-	return ((void *)1);
 }
 
 t_philo	*init_philo(t_philo *philo, t_args_philo *args_philo)

@@ -6,50 +6,11 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 16:31:15 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/29 16:26:52 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/30 18:17:12 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-void unlock_mutex(t_philo *philo, t_args_philo *args_philo)
-{
-	int i;
-
-	i = 0;
-	while (i < args_philo->nb_philo)
-	{
-		pthread_mutex_unlock(philo[i].fork_right);
-		i++;
-	};
-	if (args_philo->nb_philo == 1)
-	{
-		pthread_mutex_unlock(philo[0].fork_left);
-	}
-}
-void cleans_philo(t_philo *philo, t_args_philo *t_args_philo)
-{
-	int i;
-
-	i = 0;
-
-	while (i < t_args_philo->nb_philo)
-	{
-		pthread_mutex_unlock(philo[i].fork_right);
-		pthread_mutex_destroy(philo[i].fork_right);
-		free(philo[i].fork_right);
-		i++;
-	};
-	if (t_args_philo->nb_philo == 1)
-	{
-		pthread_mutex_unlock(philo[0].fork_left);
-		pthread_mutex_destroy(philo[0].fork_left);
-		free(philo[0].fork_left);
-	}
-	free(philo[0].global_args);
-	free(philo[0].auth_write);
-	free(philo);
-}
 
 int	main(int argc, char **argv)
 {
@@ -57,13 +18,16 @@ int	main(int argc, char **argv)
 	t_args_philo	*args_philo;
 
 	args_philo = malloc(sizeof(t_args_philo));
-	if (args_philo == NULL)
+	if (is_malloc_error(args_philo))
 		return (0);
 	if (init_global_philo_args(argc, argv, args_philo) == 0)
+	{
+		free(args_philo);
 		return (0);
+	}
 	args_philo->actual_time = stamp_time(args_philo->init_time);
 	philo = create_philo(args_philo);
-	if (philo == NULL)
+	if (is_malloc_error(philo))
 	{
 		free(args_philo);
 		return (0);
@@ -79,7 +43,7 @@ bool	init_global_philo_args(int nb_args,
 char **arg, t_args_philo *global_args)
 {
 	global_args->init_time = chrono_init();
-	if (nb_args < 5 || nb_args > 6)
+	if (check_args(nb_args, arg) == 0)
 		return (0);
 	global_args->nb_philo = ft_atoi(arg[1]);
 	global_args->time_to_die = ft_atoi(arg[2]);
@@ -92,4 +56,43 @@ char **arg, t_args_philo *global_args)
 	}
 	global_args->no_die = 1;
 	return (1);
+}
+
+void	unlock_mutex(t_philo *philo, t_args_philo *args_philo)
+{
+	int	i;
+
+	i = 0;
+	while (i < args_philo->nb_philo)
+	{
+		pthread_mutex_unlock(philo[i].fork_right);
+		i++;
+	}
+	if (args_philo->nb_philo == 1)
+	{
+		pthread_mutex_unlock(philo[0].fork_left);
+	}
+}
+
+void	cleans_philo(t_philo *philo, t_args_philo *t_args_philo)
+{
+	int	i;
+
+	i = 0;
+	while (i < t_args_philo->nb_philo)
+	{
+		pthread_mutex_unlock(philo[i].fork_right);
+		pthread_mutex_destroy(philo[i].fork_right);
+		free(philo[i].fork_right);
+		i++;
+	}
+	if (t_args_philo->nb_philo == 1)
+	{
+		pthread_mutex_unlock(philo[0].fork_left);
+		pthread_mutex_destroy(philo[0].fork_left);
+		free(philo[0].fork_left);
+	}
+	free(philo[0].global_args);
+	free(philo[0].auth_write);
+	free(philo);
 }

@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 16:10:42 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/29 16:20:56 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/30 18:20:07 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,20 @@ void	check_eat(t_philo *philo, t_args_philo *global_philo)
 		pthread_mutex_lock(philo->auth_write);
 		ft_putstr("All the philosophers had eat enough\n");
 	}
+}
+
+void	*check_malloc_fork(t_philo *philo, int nb_philo)
+{
+	int	i;
+
+	i = 0;
+	while (i < nb_philo)
+	{
+		if (philo[i].fork_right == NULL)
+			return (NULL);
+		i++;
+	}
+	if (nb_philo == 1 && philo[0].fork_right == NULL)
+		return (NULL);
+	return ((void *)1);
 }
