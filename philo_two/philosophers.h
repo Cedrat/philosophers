@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 17:40:53 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/30 20:23:59 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/31 16:29:56 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define PHILOSOPHERS_H
 
 # include <sys/time.h>
+# include <fcntl.h>
+# include <sys/stat.h> 
 # include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -47,8 +49,8 @@ typedef struct s_philo
 	int				last_time_philo_sleep;
 	int				last_time_philo_think;
 	int				nb_meals_eaten;
-	sem_t	*forks;
-	pthread_mutex_t	*auth_write;
+	sem_t			*forks;
+	sem_t			*auth_write;
 	pthread_t		philo_thread;
 	t_args_philo	*global_args;
 }				t_philo;
@@ -59,7 +61,7 @@ bool				check_philo_died(t_args_philo *global_philo,
 						int time_last_meal);
 void				ft_putstr(char *str);
 void				put_action(int time, int nb, char *action,
-						pthread_mutex_t *auth_write);
+						sem_t *auth_write);
 unsigned long int	chrono_init(void);
 unsigned long int	stamp_time(unsigned long int start_time);
 void				*survive(void *args);
@@ -78,7 +80,7 @@ void				init_first_philo(t_philo *philo, t_args_philo *args_philo);
 void				global_philo_init(t_philo *philo, t_args_philo *args_philo,
 						int philo_nb);
 void				launch_all_thread(t_philo *philo);
-void				cleans_philo(t_philo *philo, t_args_philo *t_args_philo);
+void				cleans_philo(t_philo *philo);
 int					not_a_positive_number(char *str);
 void				ft_putstr_fd(char *str, int fd);
 int					check_args(int nb_args, char **arg);
@@ -87,5 +89,6 @@ int					check_args(int nb_args, char **arg);
 bool				check_nb_args(int nb_args);
 void				unlock_mutex(t_philo *philo, t_args_philo *args_philo);
 void				*check_malloc_fork(t_philo *philo, int nb_philo);
+void				unlink_sem(void);
 
 #endif

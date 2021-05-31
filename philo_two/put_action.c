@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 15:05:01 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/28 15:05:40 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/31 16:13:07 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ unsigned int	addspace_to_str(char *str, unsigned int pos)
 	return (pos);
 }
 
-void	put_action(int time, int nb, char *action, pthread_mutex_t *auth_write)
+void	put_action(int time, int nb, char *action, sem_t *auth_write)
 {
 	char	all_action[50];
 	int		i;
@@ -83,7 +83,7 @@ void	put_action(int time, int nb, char *action, pthread_mutex_t *auth_write)
 	i = putnbr_in_str(all_action, nb, i);
 	i = addspace_to_str(all_action, i);
 	i = addstr_to_str(all_action, action, i);
-	pthread_mutex_lock(auth_write);
+	sem_wait(auth_write);
 	ft_putstr(all_action);
-	pthread_mutex_unlock(auth_write);
+	sem_post(auth_write);
 }

@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 16:10:42 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/30 20:04:25 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/05/31 17:26:33 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	check_all_alive(t_philo *philo, t_args_philo *global_philo)
 			usleep(2000);
 			put_action(global_philo->actual_time,
 				philo[i].philo_nb, "died\n", philo[i].auth_write);
-			pthread_mutex_lock(philo[i].auth_write);
+			sem_wait(philo[i].auth_write);
 			global_philo->no_die = 0;
 		}
 		i++;
@@ -80,8 +80,8 @@ void	check_eat(t_philo *philo, t_args_philo *global_philo)
 	{
 		global_philo->no_die = 0;
 		usleep(2000);
-		pthread_mutex_lock(philo->auth_write);
-		ft_putstr("All the philosophers had eat enough\n");
+		sem_wait(philo->auth_write);
+		ft_putstr("All the philosophers ate enough\n");
 	}
 }
 
