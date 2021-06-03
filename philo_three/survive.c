@@ -3,10 +3,8 @@
 void	*survive(void *arg)
 {
 	t_philo	*philo;
-	int		sleep_process;
 
 	philo = (t_philo *) arg;
-	sleep_process = philo->global_args->nb_philo * 10;
 	philo->forks = sem_open("/forks", 0);
 	philo->global_args->one_dead = sem_open("/oneDead", 0);
 	philo->global_args->ate_enough = sem_open("/meals", 0);

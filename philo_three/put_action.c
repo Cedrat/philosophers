@@ -74,10 +74,8 @@ void	put_action(int time, int nb, char *action, sem_t *auth_write)
 {
 	char	all_action[50];
 	int		i;
-	int		power;
 
 	i = 0;
-	power = 0;
 	i = putnbr_in_str(all_action, time, i);
 	i = addspace_to_str(all_action, i);
 	i = putnbr_in_str(all_action, nb, i);
