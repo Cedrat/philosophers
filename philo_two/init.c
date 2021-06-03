@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 15:09:18 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/31 16:24:14 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/06/03 21:42:56 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,7 @@ void	launch_all_thread(t_philo *philo)
 
 void 	init_first_philo(t_philo *philo, t_args_philo *args_philo)
 {
-	philo[0].auth_write = malloc(sizeof(sem_t));
 	philo[0].auth_write = sem_open("/authWrite", O_CREAT, 0777, 1);
-	philo[0].forks = malloc(sizeof(sem_t));
 	philo[0].forks = sem_open("/forks", O_CREAT, 0777, args_philo->nb_philo);
 }
 
