@@ -69,7 +69,7 @@ void	launch_all_process(t_philo *philo)
 	sem_wait(philo->global_args->one_dead);
 	while (i)
 	{
-		kill(pid[i - 1], SIGINT);
+		kill(pid[i - 1], SIGKILL);
 		i--;
 	}
 	free(pid);
@@ -77,9 +77,7 @@ void	launch_all_process(t_philo *philo)
 
 void 	init_first_philo(t_philo *philo, t_args_philo *args_philo)
 {
-	philo[0].auth_write = malloc(sizeof(sem_t));
 	philo[0].auth_write = sem_open("/authWrite", O_CREAT, 0777, 1);
-	philo[0].forks = malloc(sizeof(sem_t));
 	philo[0].forks = sem_open("/forks", O_CREAT, 0777, args_philo->nb_philo);
 }
 
