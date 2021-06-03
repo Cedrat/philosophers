@@ -3,10 +3,8 @@
 void	*survive(void *arg)
 {
 	t_philo	*philo;
-	int		sleep_process;
 
 	philo = (t_philo *) arg;
-	sleep_process = philo->global_args->nb_philo * 10;
 	if (philo->philo_nb % 2)
 		usleep(5000);
 	while (philo->global_args->no_die)
