@@ -58,7 +58,7 @@ bool				init_global_philo_args(int nb_args, char **arg,
 bool				check_philo_died(t_args_philo *global_philo,
 						int time_last_meal);
 void				ft_putstr(char *str);
-void				put_action(int time, int nb, char *action,
+void				put_action(t_philo *philo, int nb, char *action,
 						pthread_mutex_t *auth_write);
 unsigned long int	chrono_init(void);
 unsigned long int	stamp_time(unsigned long int start_time);

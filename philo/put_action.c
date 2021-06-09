@@ -70,18 +70,24 @@ unsigned int	addspace_to_str(char *str, unsigned int pos)
 	return (pos);
 }
 
-void	put_action(int time, int nb, char *action, pthread_mutex_t *auth_write)
+
+void	put_action(t_philo *philo, int nb, char *action, pthread_mutex_t *auth_write)
 {
 	char	all_action[50];
 	int		i;
 
 	i = 0;
-	i = putnbr_in_str(all_action, time, i);
+	i = putnbr_in_str(all_action, philo->global_args->actual_time, i);
 	i = addspace_to_str(all_action, i);
 	i = putnbr_in_str(all_action, nb, i);
 	i = addspace_to_str(all_action, i);
 	i = addstr_to_str(all_action, action, i);
-	pthread_mutex_lock(auth_write);
-	ft_putstr(all_action);
-	pthread_mutex_unlock(auth_write);
+	if (philo->global_args->no_die)
+	{
+		pthread_mutex_lock(auth_write);
+		usleep(500);
+		if (philo->global_args->no_die)
+			write(1, all_action, i);
+		pthread_mutex_unlock(auth_write);
+	}
 }
