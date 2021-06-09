@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 17:40:53 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/30 18:22:26 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/06/09 21:18:19 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ unsigned long int	chrono_init(void);
 unsigned long int	stamp_time(unsigned long int start_time);
 void				*survive(void *args);
 int					ft_atoi(char *nb);
-void				check_running(t_philo *philo, t_args_philo *global_philo);
+void				*check_running(void *philo);
 t_philo				*create_philo(t_args_philo *args_philo);
 t_philo				*init_philo(t_philo *philo, t_args_philo *args_philo);
 void				check_all_alive(t_philo *philos,

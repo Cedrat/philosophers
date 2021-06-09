@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 16:31:15 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/06/09 12:21:33 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/06/09 21:19:46 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	main(int argc, char **argv)
 		free(args_philo);
 		return (0);
 	}
-	check_running(philo, args_philo);
 	unlock_mutex(philo, args_philo);
 	usleep(20000);
 	cleans_philo(philo, args_philo);

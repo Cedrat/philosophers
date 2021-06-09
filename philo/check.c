@@ -6,33 +6,39 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 16:10:42 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/30 18:20:07 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/06/09 21:36:45 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	check_running(t_philo *philo, t_args_philo *global_philo)
+void	*check_running(void *philos)
 {
-	if (global_philo->nb_philo_need_eat != -1)
+	t_philo	*philo;
+
+	philo = (t_philo *) philos;
+	if (philo->global_args->nb_philo_need_eat != -1)
 	{
-		while (global_philo->no_die)
+		while (philo->global_args->no_die)
 		{
-			global_philo->actual_time = stamp_time(global_philo->init_time);
-			check_eat(philo, global_philo);
-			check_all_alive(philo, global_philo);
+			philo->global_args->actual_time = stamp_time(
+					philo->global_args->init_time);
+			check_eat(philo, philo->global_args);
+			check_all_alive(philo, philo->global_args);
 			usleep(200);
 		}
 	}
 	else
 	{
-		while (global_philo->no_die)
+		while (philo->global_args->no_die)
 		{
-			global_philo->actual_time = stamp_time(global_philo->init_time);
-			check_all_alive(philo, global_philo);
+			philo->global_args->actual_time = stamp_time(
+					philo->global_args->init_time);
+			check_all_alive(philo, philo->global_args);
 			usleep(200);
 		}
 	}
+	return ((void *)1);
 }
 
 void	check_all_alive(t_philo *philo, t_args_philo *global_philo)

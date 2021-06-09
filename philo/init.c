@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 15:09:18 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/30 18:20:00 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/06/09 21:37:14 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,22 @@ t_philo	*init_philo(t_philo *philo, t_args_philo *args_philo)
 
 void	launch_all_thread(t_philo *philo)
 {
-	int	i;
+	int			i;
+	pthread_t	monitoring;
 
 	i = 0;
 	while (i < philo->global_args->nb_philo)
 	{
 		pthread_create(&philo[i].philo_thread,
 			NULL, survive, (void *)(&philo[i]));
-		pthread_detach(philo[i].philo_thread);
+		i++;
+	}
+	pthread_create(&monitoring, NULL, check_running, (void *)philo);
+	pthread_join(monitoring, NULL);
+	i = 0;
+	while (i < philo->global_args->nb_philo)
+	{
+		pthread_join(philo[i].philo_thread, NULL);
 		i++;
 	}
 }
