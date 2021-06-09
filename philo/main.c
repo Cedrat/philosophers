@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 16:31:15 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/05/30 18:17:12 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/06/09 12:21:33 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ void	unlock_mutex(t_philo *philo, t_args_philo *args_philo)
 	int	i;
 
 	i = 0;
+	while (args_philo->nb_philo)
+	{
+		pthread_mutex_unlock(philo[0].fork_right);
+		pthread_mutex_unlock(philo[0].fork_left);
+	}
 	while (i < args_philo->nb_philo)
 	{
 		pthread_mutex_unlock(philo[i].fork_right);

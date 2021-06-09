@@ -19,6 +19,7 @@ void	*survive(void *arg)
 			philo_eating(philo);
 		usleep(1000);
 	}
+	philo->global_args->nb_philo--;
 	return ((void *)1);
 }
 
