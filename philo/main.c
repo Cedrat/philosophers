@@ -63,11 +63,6 @@ void	unlock_mutex(t_philo *philo, t_args_philo *args_philo)
 	int	i;
 
 	i = 0;
-	while (args_philo->nb_philo)
-	{
-		pthread_mutex_unlock(philo[0].fork_right);
-		pthread_mutex_unlock(philo[0].fork_left);
-	}
 	while (i < args_philo->nb_philo)
 	{
 		pthread_mutex_unlock(philo[i].fork_right);

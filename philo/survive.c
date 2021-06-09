@@ -19,7 +19,8 @@ void	*survive(void *arg)
 			philo_eating(philo);
 		usleep(1000);
 	}
-	philo->global_args->nb_philo--;
+	pthread_mutex_unlock(philo[0].fork_right);
+	pthread_mutex_unlock(philo[0].fork_left);
 	return ((void *)1);
 }
 
