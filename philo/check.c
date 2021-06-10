@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 16:10:42 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/06/10 13:35:17 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/06/10 15:06:47 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ void	check_eat(t_philo *philo, t_args_philo *global_philo)
 	nb_philo_eaten_enough = 0;
 	while (i < global_philo->nb_philo)
 	{
-		if (global_philo->nb_philo_need_eat <= philo->nb_meals_eaten)
+		if (global_philo->nb_philo_need_eat < philo->nb_meals_eaten)
 			nb_philo_eaten_enough++;
 		i++;
 	}
-	if (nb_philo_eaten_enough == i)
+	if (nb_philo_eaten_enough == global_philo->nb_philo)
 	{
 		global_philo->no_die = 0;
 		usleep(2000);
