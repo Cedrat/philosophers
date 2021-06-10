@@ -54,6 +54,11 @@ void	check_all_alive(t_philo *philo, t_args_philo *global_philo)
 			put_action(philo,
 				philo[i].philo_nb, "died\n", philo[i].auth_write);
 			global_philo->no_die = 0;
+			if (philo->global_args->nb_philo == 1)
+			{
+				pthread_mutex_unlock(philo[0].fork_right);
+				pthread_mutex_unlock(philo[0].fork_left);
+			}
 		}
 		i++;
 	}
