@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 16:10:42 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/06/09 21:36:45 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/06/10 13:35:17 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,9 @@ void	check_all_alive(t_philo *philo, t_args_philo *global_philo)
 	{
 		if (check_philo_died(global_philo, philo[i].last_time_philo_eaten))
 		{
-			// global_philo->no_die = 0;
 			usleep(1000);
 			put_action(philo,
 				philo[i].philo_nb, "died\n", philo[i].auth_write);
-			//pthread_mutex_lock(philo[i].auth_write);
 			global_philo->no_die = 0;
 		}
 		i++;

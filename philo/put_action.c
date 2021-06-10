@@ -6,7 +6,7 @@
 /*   By: lnoaille <lnoaille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 15:05:01 by lnoaille          #+#    #+#             */
-/*   Updated: 2021/06/09 21:20:52 by lnoaille         ###   ########.fr       */
+/*   Updated: 2021/06/10 13:35:56 by lnoaille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ unsigned int	addspace_to_str(char *str, unsigned int pos)
 	return (pos);
 }
 
-
-void	put_action(t_philo *philo, int nb, char *action, pthread_mutex_t *auth_write)
+void	put_action(t_philo *philo, int nb, char *action,
+	pthread_mutex_t *auth_write)
 {
 	char	all_action[50];
 	int		i;

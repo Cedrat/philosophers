@@ -39,13 +39,13 @@ void	philo_eating(t_philo *philo)
 	if (philo->global_args->no_die)
 	{
 		if (philo->global_args->no_die)
-		put_action(philo, philo->philo_nb,
-			"has taken a fork\n", philo->auth_write);
+			put_action(philo, philo->philo_nb,
+				"has taken a fork\n", philo->auth_write);
 		philo->state = EATING;
 		philo->last_time_philo_eaten = philo->global_args->actual_time;
 		if (philo->global_args->no_die)
-		put_action(philo, philo->philo_nb,
-			"is eating\n", philo->auth_write);
+			put_action(philo, philo->philo_nb,
+				"is eating\n", philo->auth_write);
 		usleep(philo->global_args->time_to_eat / 2);
 	}
 }
@@ -62,7 +62,7 @@ void	philo_thinking(t_philo *philo)
 		philo->last_time_philo_sleep = philo->global_args->actual_time;
 		if (philo->global_args->no_die)
 			put_action(philo, philo->philo_nb,
-			"is sleeping\n", philo->auth_write);
+				"is sleeping\n", philo->auth_write);
 		usleep(philo->global_args->time_to_sleep / 2);
 	}
 }
@@ -75,7 +75,7 @@ void	philo_sleeping(t_philo *philo)
 		philo->state = THINKING;
 		philo->last_time_philo_think = philo->global_args->actual_time;
 		if (philo->global_args->no_die)
-		put_action(philo, philo->philo_nb,
-			"is thinking\n", philo->auth_write);
+			put_action(philo, philo->philo_nb,
+				"is thinking\n", philo->auth_write);
 	}
 }
