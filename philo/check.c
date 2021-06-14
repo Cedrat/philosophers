@@ -89,7 +89,6 @@ void	check_eat(t_philo *philo, t_args_philo *global_philo)
 	{
 		global_philo->no_die = 0;
 		usleep(2000);
-		pthread_mutex_lock(philo->auth_write);
 		ft_putstr("All the philosophers had eat enough\n");
 	}
 }

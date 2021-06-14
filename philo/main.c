@@ -32,6 +32,8 @@ int	main(int argc, char **argv)
 		free(args_philo);
 		return (0);
 	}
+	while (args_philo->no_die)
+		;
 	unlock_mutex(philo, args_philo);
 	usleep(20000);
 	cleans_philo(philo, args_philo);
