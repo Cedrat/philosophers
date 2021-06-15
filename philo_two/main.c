@@ -67,6 +67,8 @@ void	cleans_philo(t_philo *philo)
 
 void	unlink_sem(void)
 {
+	sem_close("/forks");
+	sem_close("/authWrite");
 	sem_unlink("/forks");
 	sem_unlink("/authWrite");
 }
